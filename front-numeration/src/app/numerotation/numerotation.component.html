@@ -1,0 +1,38 @@
+<mat-card class="custom-card p-4">
+  <mat-card-header class="mx-auto">
+    <mat-card-title><h3>Numérotation</h3> </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="userForm" class="flex flex-col gap-6">
+      <div class="user-section">
+        <div class="user-inputs">
+          <mat-form-field>
+            <mat-label>Prénom</mat-label>
+            <input matInput formControlName="firstname">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="lastname">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date D'anniversaire</mat-label>
+            <input matInput formControlName="birthdate" [matDatepicker]="dp" />
+            <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="d-flex flex-column justify-content-center mt-4">
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading">
+          générer
+        </button>
+        @if(generatedValue){
+        <div class="value">
+          <span style="font-weight: bold;">Resultat : </span>
+          {{generatedValue}}
+        </div>
+        }
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

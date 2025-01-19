@@ -1,7 +1,6 @@
 package com.test.technique.config.service.impl;
 
 import com.test.technique.config.document.Configs;
-
 import com.test.technique.config.repository.ConfigRepository;
 import com.test.technique.config.service.IConfigService;
 import com.test.technique.model.Config;
@@ -11,26 +10,61 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * Service class for managing configuration settings.
+ *
+ * This class provides business logic for managing configurations and validating the configuration list.
+ * It interacts with the {@link ConfigRepository} to retrieve and save configuration data in the MongoDB database.
+ * It ensures that the configuration list is valid before updating or creating the configurations in the database.
+ *
+ * {@link ConfigService} implements the {@link IConfigService} interface, providing methods to fetch all configurations,
+ * update configurations, and validate the configuration list.
+ */
 @Service
 public class ConfigService implements IConfigService {
+
     @Autowired
     private ConfigRepository repository;
 
+    /**
+     * Retrieves all configuration settings from the database.
+     *
+     * This method fetches the configuration document stored in the `configs` collection from MongoDB.
+     * It returns the list of individual configurations (of type {@link Config}) if available,
+     * or an empty list if no configurations exist.
+     *
+     * @return A list of {@link Config} objects representing the configuration settings.
+     */
     @Override
     public List<Config> getAllConfigs() {
         Configs configs = repository.findById("configs").orElse(null);
         return (configs != null) ? configs.getConfigs() : Collections.emptyList();
     }
 
+    /**
+     * Validates the list of configurations to ensure they follow certain rules.
+     *
+     * This method checks that:
+     * 1. The list contains exactly 4 configurations.
+     * 2. Each configuration has a valid {@link CriterionType}.
+     * 3. The orderIndex is between 1 and 4 and does not contain duplicates.
+     *
+     * If any of these conditions are violated, an {@link IllegalArgumentException} is thrown with an appropriate error message.
+     *
+     * @param configs The list of {@link Config} objects to be validated.
+     * @throws IllegalArgumentException If any validation rule is violated (e.g., invalid criterionType, invalid orderIndex, or duplicate orderIndex).
+     */
     public void validateConfigs(List<Config> configs) {
         if (configs.size() == 4) {
             Set<Integer> seenOrderIndexes = new HashSet<>();
             for (Config config : configs) {
+                // Validate criterionType
                 if (config.getCriterionType() == null || !CriterionType.isValid(config.getCriterionType())) {
                     throw new IllegalArgumentException("Invalid criterionType: " + config.getCriterionType());
                 }
-                int orderIndex = config.getOrderIndex();
 
+                // Validate orderIndex
+                int orderIndex = config.getOrderIndex();
                 if (orderIndex < 1 || orderIndex > 4) {
                     throw new IllegalArgumentException("Invalid orderIndex: " + orderIndex + " should be between 1 and 4");
                 }
@@ -44,7 +78,17 @@ public class ConfigService implements IConfigService {
         }
     }
 
-
+    /**
+     * Updates the configuration settings in the database.
+     *
+     * This method first validates the provided list of configurations using the {@link #validateConfigs(List)} method.
+     * It then checks if the `configs` document already exists in the database. If it does, it updates the existing configurations.
+     * If the document doesn't exist, it creates a new one and saves the provided configurations.
+     *
+     * @param listConfigs The list of {@link Config} objects to be updated or created in the database.
+     * @return The updated or newly created {@link Configs} document.
+     * @throws IllegalArgumentException If the provided list of configurations is invalid.
+     */
     @Override
     public Configs updateConfigs(List<Config> listConfigs) {
         validateConfigs(listConfigs);
@@ -55,10 +99,9 @@ public class ConfigService implements IConfigService {
             existingConfigs.setConfigs(listConfigs);
             return repository.save(existingConfigs);
         } else {
-            Configs Configs = new Configs();
-            Configs.setConfigs(listConfigs);
-            return repository.save(Configs);
+            Configs newConfigs = new Configs();
+            newConfigs.setConfigs(listConfigs);
+            return repository.save(newConfigs);
         }
-
     }
 }

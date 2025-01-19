@@ -1,0 +1,10 @@
+.custom-col{
+  display: inline-block;
+  width: fit-content
+}
+@media (max-width: 1500px) {
+  .custom-col{
+    display: block;
+    width: 100% !important;
+  }
+}

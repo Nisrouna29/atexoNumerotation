@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgba(128, 128, 128, 0.1) !important;
+ }
+/* styles.css */
+.mat-mdc-snack-bar-container.success {
+  background-color: rgb(117, 227, 117)!important;
+  color: white !important;
+}
+
+.mat-mdc-snack-bar-container.error {
+  background-color: rgba(255, 0, 60, 0.759) !important;
+  color: white !important;
+}
+

@@ -54,7 +54,7 @@ public class ConfigService implements IConfigService {
      * @param configs The list of {@link Config} objects to be validated.
      * @throws IllegalArgumentException If any validation rule is violated (e.g., invalid criterionType, invalid orderIndex, or duplicate orderIndex).
      */
-    public void validateConfigs(List<Config> configs) {
+    private void validateConfigs(List<Config> configs) {
         if (configs.size() == 4) {
             Set<Integer> seenOrderIndexes = new HashSet<>();
             for (Config config : configs) {

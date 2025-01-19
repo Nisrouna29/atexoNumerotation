@@ -35,6 +35,7 @@ class ConfigServiceTest {
     void setUp() {
         validConfigs = new ArrayList<>();
 
+        // Add valid configuration objects
         FirstNameConfig firstNameConfig = new FirstNameConfig();
         firstNameConfig.setCriterionType("FIRSTNAME");
         firstNameConfig.setOrderIndex(1);
@@ -68,7 +69,6 @@ class ConfigServiceTest {
     @Test
     void getAllConfigs_WhenConfigsExist_ReturnsConfigs() {
         when(repository.findById("configs")).thenReturn(Optional.of(configsDocument));
-
 
         List<Config> result = configService.getAllConfigs();
 
@@ -118,7 +118,7 @@ class ConfigServiceTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> configService.validateConfigs(invalidSizeConfigs)
+                () -> configService.updateConfigs(invalidSizeConfigs)
         );
         assertEquals("Invalid number of configurations. Expected 4 but got: 3", exception.getMessage());
     }
@@ -131,7 +131,7 @@ class ConfigServiceTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> configService.validateConfigs(validConfigs)
+                () -> configService.updateConfigs(validConfigs)
         );
         assertEquals("Invalid criterionType: INVALID_TYPE", exception.getMessage());
     }
@@ -144,7 +144,7 @@ class ConfigServiceTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> configService.validateConfigs(validConfigs)
+                () -> configService.updateConfigs(validConfigs)
         );
         assertEquals("Invalid criterionType: null", exception.getMessage());
     }
@@ -155,7 +155,7 @@ class ConfigServiceTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> configService.validateConfigs(validConfigs)
+                () -> configService.updateConfigs(validConfigs)
         );
         assertEquals("Invalid orderIndex: 5 should be between 1 and 4", exception.getMessage());
     }
@@ -166,7 +166,7 @@ class ConfigServiceTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> configService.validateConfigs(validConfigs)
+                () -> configService.updateConfigs(validConfigs)
         );
         assertEquals("Duplicate found for orderIndex: 1", exception.getMessage());
     }
@@ -178,7 +178,7 @@ class ConfigServiceTest {
         validConfigs.get(2).setOrderIndex(3);
         validConfigs.get(3).setOrderIndex(4);
 
-        assertDoesNotThrow(() -> configService.validateConfigs(validConfigs));
+        assertDoesNotThrow(() -> configService.updateConfigs(validConfigs));
     }
 
     @Test

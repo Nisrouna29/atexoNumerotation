@@ -48,9 +48,9 @@ export class NumerotationComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.numerotationService.generate(this.userForm.value).pipe(tap(() => {
-      this.snackBarService.showMessage('Numérotation générée avec succès');
+      this.snackBarService.showMessage('Numérotation générée avec succès.');
     }), catchError((error) => {
-      this.snackBarService.showMessage('Erreur lors de la génération de la numérotation ' + error.error);
+      this.snackBarService.showMessage('Erreur lors de la génération de la numérotation.');
       return throwError(() => new Error(error.error));
     }), finalize(() => { this.loading = false })).subscribe((value: string) => {
       this.generatedValue = value;

@@ -82,10 +82,10 @@ export class ConfigurationComponent {
       this.loading = true;
       this.configService.createConfigs(this.configs).pipe(
         tap(() => {
-          this.snackBarService.showMessage('Configuration mise à jour avec succès');
+          this.snackBarService.showMessage('Configuration mise à jour avec succès.');
         }),
         catchError((error: HttpErrorResponse) => {
-          this.snackBarService.showMessage('Erreur lors de la Mise à jour de la configuration ' + error.error);
+          this.snackBarService.showMessage('Erreur lors de la Mise à jour de la configuration.');
           return throwError(() => new Error(error.error));
         }),
         finalize(() => { this.loading = false; })

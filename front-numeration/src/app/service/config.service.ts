@@ -12,7 +12,7 @@ export class ConfigService {
 
   constructor(private http: HttpClient) {
   }
-  createConfigs(configs: any[]): Observable<string> {
+  createConfigs(configs: Config[]): Observable<string> {
     return this.http.put<string>(`${this.apiUrl}`, configs, { responseType: 'text' as 'json' });
   }
 }

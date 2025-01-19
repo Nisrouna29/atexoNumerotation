@@ -7,4 +7,7 @@
     display: block;
     width: 100% !important;
   }
+  .xl-exception{
+    align-items: start !important;
+  }
 }

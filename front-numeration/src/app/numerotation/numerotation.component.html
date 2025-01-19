@@ -28,7 +28,7 @@
         <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading">
           générer
         </button>
-        @if(showValue){
+        @if(generatedValue){
         <div class="value">
           {{generatedValue}}
         </div>

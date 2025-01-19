@@ -52,7 +52,7 @@ export class ConfigurationComponent {
       }),
       counter: this.fb.group({
         orderIndex: [0, [Validators.required, Validators.min(1), Validators.max(4)]],
-        length: [0, [Validators.required]],
+        length: [0, [Validators.required, Validators.min(1)]],
         prefix: [''],
         suffix: ['']
       })

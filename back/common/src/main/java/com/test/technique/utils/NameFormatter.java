@@ -13,13 +13,14 @@ public class NameFormatter implements ValueFormatter<String> {
     }
 
     private String padOrTruncate(String input, int length) {
+        var value = input.trim();
         if (length == 0) {
             return "";
         }
-        if (input.length() >= length) {
-            return input.substring(0, length);
+        if (value.length() >= length) {
+            return value.substring(0, length);
         } else {
-            return String.format("%-" + length + "s", input).replace(' ', '_');
+            return String.format("%-" + length + "s", value).replace(' ', '_');
         }
     }
 }

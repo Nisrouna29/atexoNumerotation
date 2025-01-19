@@ -13,8 +13,8 @@ public class ValueWrapper {
         return result.toString().toUpperCase();
     }
     private void appendIfNotNull(StringBuilder builder, String part) {
-        if (part != null) {
-            builder.append(part);
+        if (part != null && !part.trim().isEmpty()) {
+            builder.append(part.trim());
         }
     }
 }

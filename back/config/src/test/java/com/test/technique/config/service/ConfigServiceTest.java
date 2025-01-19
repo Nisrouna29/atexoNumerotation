@@ -222,6 +222,20 @@ class ConfigServiceTest {
         assertEquals("Invalid date format pattern: ", exception.getMessage());
     }
 
+
+    @Test
+    void testInvalidFirstNameConfig() {
+        Config invalidConfig = new NameConfig();
+        invalidConfig.setCriterionType("FIRSTNAME");
+        validConfigs.set(0, invalidConfig);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> configService.updateConfigs(validConfigs)
+        );
+        assertEquals("Config for FIRSTNAME must be an instance of FirstNameConfig.", exception.getMessage());
+    }
+
     @Test
     void validateConfigs_WithInvalidDateFormat_ThrowsException() {
         BirthdateConfig invalidConfig = new BirthdateConfig();

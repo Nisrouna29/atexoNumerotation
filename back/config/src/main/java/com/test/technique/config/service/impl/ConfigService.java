@@ -3,10 +3,7 @@ package com.test.technique.config.service.impl;
 import com.test.technique.config.document.Configs;
 import com.test.technique.config.repository.ConfigRepository;
 import com.test.technique.config.service.IConfigService;
-import com.test.technique.model.BirthdateConfig;
-import com.test.technique.model.Config;
-import com.test.technique.model.CriterionType;
-import com.test.technique.model.LengthConfig;
+import com.test.technique.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +68,29 @@ public class ConfigService implements IConfigService {
                 // Check for duplicate criterionType
                 if (!seenCriterionTypes.add(config.getCriterionType())) {
                     throw new IllegalArgumentException("Duplicate found for criterionType: " + config.getCriterionType());
+                }
+
+                switch (config.getCriterionType()) {
+                    case "FIRSTNAME":
+                        if (!(config instanceof FirstNameConfig)) {
+                            throw new IllegalArgumentException("Config for FIRSTNAME must be an instance of FirstNameConfig.");
+                        }
+                        break;
+                    case "NAME":
+                        if (!(config instanceof NameConfig)) {
+                            throw new IllegalArgumentException("Config for NAME must be an instance of NameConfig.");
+                        }
+                        break;
+                    case "COUNTER":
+                        if (!(config instanceof CounterConfig)) {
+                            throw new IllegalArgumentException("Config for COUNTER must be an instance of CounterConfig.");
+                        }
+                        break;
+                    case "BIRTHDATE":
+                        if (!(config instanceof BirthdateConfig)) {
+                            throw new IllegalArgumentException("Config for BIRTHDATE must be an instance of BirthdateConfig.");
+                        }
+                        break;
                 }
 
                 if (config instanceof LengthConfig) {

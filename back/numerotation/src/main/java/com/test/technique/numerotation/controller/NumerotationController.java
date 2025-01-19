@@ -4,6 +4,7 @@ import com.test.technique.model.Config;
 import com.test.technique.numerotation.model.UserInfo;
 import com.test.technique.numerotation.service.NumerotationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,6 +50,10 @@ public class NumerotationController {
         List<Config> configs = Arrays.asList(
                 restTemplate.getForObject("http://CONFIGURATION-SERVICE/configs", Config[].class)
         );
+        if(configs== null ||configs.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The requested numerotation could not be generated, beacuse there is No configuration.");
+        }
 
         // Incrementing the counter by calling the Counter Service
         int counter = restTemplate.postForObject("http://COUNTER-SERVICE/counter/increment", null, Integer.class);

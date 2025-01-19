@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -89,15 +90,18 @@ class NumerotationControllerTest {
     }
 
 
+
     @Test
-    void generateNumber_WithMissingConfig_ReturnsEmptyResult() {
+    void generateNumber_WithMissingConfig_ReturnsNotFound() {
+        // When there are no configurations returned by the Configuration Service
         when(restTemplate.getForObject(anyString(), eq(Config[].class)))
                 .thenReturn(new Config[0]);
-        when(restTemplate.postForObject(anyString(), any(), eq(Integer.class)))
-                .thenReturn(99);
 
+        // Act
         ResponseEntity<String> response = controller.generateNumber(validUserInfo);
 
-        assertEquals(null, response.getBody());  // Expect an empty result if no config is available
+        // Assert
+        assertEquals("The requested numerotation could not be generated, beacuse there is No configuration.", response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

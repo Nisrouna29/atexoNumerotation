@@ -19,11 +19,4 @@
   padding: 15px;
   overflow-wrap: break-word;
 }
-@media (max-width: 1500px) {
-  .custom-card {
-    width: 100% !important;
-  }
-  :host{
-    width: 100% !important;
-  }
-}
+

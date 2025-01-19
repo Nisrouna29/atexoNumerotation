@@ -34,13 +34,13 @@ export class ConfigurationComponent {
     this.configForm = this.fb.group({
       firstName: this.fb.group({
         orderIndex: [0, [Validators.required, Validators.min(1), Validators.max(4)]],
-        length: [0, [Validators.required]],
+        length: [0, [Validators.required, Validators.min(1)]],
         prefix: [''],
         suffix: ['']
       }),
       name: this.fb.group({
         orderIndex: [0, [Validators.required, Validators.min(1), Validators.max(4)]],
-        length: [0, [Validators.required]],
+        length: [0, [Validators.required, Validators.min(1)]],
         prefix: [''],
         suffix: ['']
       }),
@@ -60,36 +60,34 @@ export class ConfigurationComponent {
   }
 
   onSubmit() {
-    if (this.configForm.valid) {
-      const formValue = this.configForm.value;
-      this.configs = [{
-        type: 'FirstNameConfig',
-        criterionType: "FIRSTNAME",
-        ...formValue.firstName
-      }, {
-        type: 'NameConfig',
-        criterionType: "NAME",
-        ...formValue.name
-      }, {
-        type: 'BirthdateConfig',
-        criterionType: "BIRTHDATE",
-        ...formValue.birthdate
-      }, {
-        type: 'CounterConfig',
-        criterionType: "COUNTER",
-        ...formValue.counter
-      }];
-      this.loading = true;
-      this.configService.createConfigs(this.configs).pipe(
-        tap(() => {
-          this.snackBarService.showMessage('Configuration mise à jour avec succès.');
-        }),
-        catchError((error: HttpErrorResponse) => {
-          this.snackBarService.showMessage('Erreur lors de la Mise à jour de la configuration.');
-          return throwError(() => new Error(error.error));
-        }),
-        finalize(() => { this.loading = false; })
-      ).subscribe();
-    }
+    const formValue = this.configForm.value;
+    this.configs = [{
+      type: 'FirstNameConfig',
+      criterionType: "FIRSTNAME",
+      ...formValue.firstName
+    }, {
+      type: 'NameConfig',
+      criterionType: "NAME",
+      ...formValue.name
+    }, {
+      type: 'BirthdateConfig',
+      criterionType: "BIRTHDATE",
+      ...formValue.birthdate
+    }, {
+      type: 'CounterConfig',
+      criterionType: "COUNTER",
+      ...formValue.counter
+    }];
+    this.loading = true;
+    this.configService.createConfigs(this.configs).pipe(
+      tap(() => {
+        this.snackBarService.showMessage('Configuration mise à jour avec succès.');
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.snackBarService.showMessage('Erreur lors de la Mise à jour de la configuration.');
+        return throwError(() => new Error(error.error));
+      }),
+      finalize(() => { this.loading = false; })
+    ).subscribe();
   }
 }

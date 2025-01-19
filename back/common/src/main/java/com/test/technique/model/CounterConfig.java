@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CounterConfig extends Config {
+public class CounterConfig extends Config implements LengthConfig {
 
     /**
      * The length of the counter value.

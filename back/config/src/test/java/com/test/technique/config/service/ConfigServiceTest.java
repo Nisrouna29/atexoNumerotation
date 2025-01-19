@@ -150,6 +150,26 @@ class ConfigServiceTest {
     }
 
     @Test
+    void validateConfigs_WithDuplicateCriterionType_ThrowsException() {
+        // Create a duplicate criterionType in the configurations
+        FirstNameConfig duplicateConfig = new FirstNameConfig();
+        duplicateConfig.setCriterionType("FIRSTNAME");
+        duplicateConfig.setOrderIndex(5);  // New order index
+        duplicateConfig.setLength(4);
+
+        // Replace one of the valid configurations with the duplicate
+        validConfigs.set(2, duplicateConfig);
+
+        // Verify that the exception is thrown for duplicate criterionType
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> configService.updateConfigs(validConfigs)
+        );
+
+        assertEquals("Duplicate found for criterionType: FIRSTNAME", exception.getMessage());
+    }
+
+    @Test
     void validateConfigs_WithInvalidOrderIndex_ThrowsException() {
         validConfigs.get(0).setOrderIndex(5);
 
@@ -170,6 +190,55 @@ class ConfigServiceTest {
         );
         assertEquals("Duplicate found for orderIndex: 1", exception.getMessage());
     }
+    @Test
+    void validateConfigs_WithInvalidLength_ThrowsException() {
+        // Create a CounterConfig with an invalid length (0)
+        CounterConfig invalidConfig = new CounterConfig("COUNTER", 4, 0, "prefix", "suffix");
+
+        validConfigs.set(0, invalidConfig);  // Replace valid config with invalid one
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> configService.updateConfigs(validConfigs)
+        );
+
+        assertEquals("Length must be greater than 0 for config: COUNTER", exception.getMessage());
+    }
+
+    @Test
+    void validateConfigs_WithEmptyDateFormat_ThrowsException() {
+        BirthdateConfig invalidConfig = new BirthdateConfig();
+        invalidConfig.setCriterionType("BIRTHDATE");
+        invalidConfig.setOrderIndex(3);
+        invalidConfig.setDateFormat("");
+
+        validConfigs.set(2, invalidConfig);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> configService.updateConfigs(validConfigs)
+        );
+
+        assertEquals("Invalid date format pattern: ", exception.getMessage());
+    }
+
+    @Test
+    void validateConfigs_WithInvalidDateFormat_ThrowsException() {
+        BirthdateConfig invalidConfig = new BirthdateConfig();
+        invalidConfig.setCriterionType("BIRTHDATE");
+        invalidConfig.setOrderIndex(3);
+        invalidConfig.setDateFormat("INVALID");
+
+        validConfigs.set(2, invalidConfig);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> configService.updateConfigs(validConfigs)
+        );
+
+        assertEquals("Invalid date format pattern: INVALID", exception.getMessage());
+    }
+
 
     @Test
     void validateConfigs_WithValidConfigs_PassesValidation() {

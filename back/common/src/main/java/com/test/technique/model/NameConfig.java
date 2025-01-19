@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NameConfig extends Config {
+public class NameConfig extends Config implements LengthConfig  {
 
     /**
      * The length of the name portion in the generated numerotation.

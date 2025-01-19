@@ -35,6 +35,7 @@ export class NumerotationComponent implements OnInit {
   userForm!: FormGroup;
   generatedValue!: string;
   loading!: boolean;
+  showValue = false;
 
   constructor(private fb: FormBuilder, private snackBarService: SnackBarService, private numerotationService: NumerotationService) { }
   ngOnInit(): void {
@@ -47,6 +48,7 @@ export class NumerotationComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    this.showValue = false;
     this.numerotationService.generate(this.userForm.value).pipe(tap(() => {
       this.snackBarService.showMessage('Numérotation générée avec succès.');
     }), catchError((error) => {
@@ -54,6 +56,7 @@ export class NumerotationComponent implements OnInit {
       return throwError(() => new Error(error.error));
     }), finalize(() => { this.loading = false })).subscribe((value: string) => {
       this.generatedValue = value;
+      this.showValue = true;
     })
   }
 

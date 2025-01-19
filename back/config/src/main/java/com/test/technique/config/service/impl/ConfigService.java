@@ -3,11 +3,14 @@ package com.test.technique.config.service.impl;
 import com.test.technique.config.document.Configs;
 import com.test.technique.config.repository.ConfigRepository;
 import com.test.technique.config.service.IConfigService;
+import com.test.technique.model.BirthdateConfig;
 import com.test.technique.model.Config;
 import com.test.technique.model.CriterionType;
+import com.test.technique.model.LengthConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -46,9 +49,10 @@ public class ConfigService implements IConfigService {
      *
      * This method checks that:
      * 1. The list contains exactly 4 configurations.
-     * 2. Each configuration has a valid {@link CriterionType}.
+     * 2. Each configuration has a valid {@link CriterionType}. and no duplications
      * 3. The orderIndex is between 1 and 4 and does not contain duplicates.
-     *
+     * 4. Config with length, length must be > 0
+     * 5. Config with dateformat, dateformat must be valid
      * If any of these conditions are violated, an {@link IllegalArgumentException} is thrown with an appropriate error message.
      *
      * @param configs The list of {@link Config} objects to be validated.
@@ -57,12 +61,37 @@ public class ConfigService implements IConfigService {
     private void validateConfigs(List<Config> configs) {
         if (configs.size() == 4) {
             Set<Integer> seenOrderIndexes = new HashSet<>();
+            Set<String> seenCriterionTypes = new HashSet<>();
             for (Config config : configs) {
-                // Validate criterionType
+
                 if (config.getCriterionType() == null || !CriterionType.isValid(config.getCriterionType())) {
                     throw new IllegalArgumentException("Invalid criterionType: " + config.getCriterionType());
                 }
 
+                // Check for duplicate criterionType
+                if (!seenCriterionTypes.add(config.getCriterionType())) {
+                    throw new IllegalArgumentException("Duplicate found for criterionType: " + config.getCriterionType());
+                }
+
+                if (config instanceof LengthConfig) {
+                    LengthConfig lengthConfig = (LengthConfig) config;
+                    if (lengthConfig.getLength() <= 0) {
+                        throw new IllegalArgumentException("Length must be greater than 0 for config: " + config.getCriterionType());
+                    }
+                }
+
+                if (config instanceof BirthdateConfig) {
+                    BirthdateConfig birthdateConfig = (BirthdateConfig) config;
+                    var dateFormat = birthdateConfig.getDateFormat();
+                    if (dateFormat == null || dateFormat.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Invalid date format pattern: " + dateFormat);
+                    }
+                    try {
+                        DateTimeFormatter.ofPattern(dateFormat);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("Invalid date format pattern: " + dateFormat);
+                    }
+                }
                 // Validate orderIndex
                 int orderIndex = config.getOrderIndex();
                 if (orderIndex < 1 || orderIndex > 4) {

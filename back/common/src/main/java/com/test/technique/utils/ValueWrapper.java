@@ -42,7 +42,7 @@ public class ValueWrapper {
      */
     private void appendIfNotNull(StringBuilder builder, String part) {
         if (part != null && !part.trim().isEmpty()) {
-            builder.append(part.trim());
+            builder.append(part.replaceAll("\\s+", "") );
         }
     }
 }

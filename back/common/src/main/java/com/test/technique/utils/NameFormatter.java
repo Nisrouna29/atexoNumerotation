@@ -44,10 +44,11 @@ public class NameFormatter implements ValueFormatter<String> {
      * @return The formatted string, either truncated or padded.
      */
     private String padOrTruncate(String input, int length) {
-        var value = input.trim();
         if (length == 0) {
             return "";
         }
+        var value = input!= null ? input.replaceAll("\\s+", "") : "";
+
         if (value.length() >= length) {
             return value.substring(0, length);
         } else {

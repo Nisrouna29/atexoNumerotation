@@ -7,6 +7,7 @@ import com.test.technique.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -107,7 +108,8 @@ public class ConfigService implements IConfigService {
                         throw new IllegalArgumentException("Invalid date format pattern: " + dateFormat);
                     }
                     try {
-                        DateTimeFormatter.ofPattern(dateFormat);
+                        LocalDateTime dateTime = LocalDateTime.now();
+                        dateTime.format(DateTimeFormatter.ofPattern(dateFormat));
                     } catch (IllegalArgumentException e) {
                         throw new IllegalArgumentException("Invalid date format pattern: " + dateFormat);
                     }

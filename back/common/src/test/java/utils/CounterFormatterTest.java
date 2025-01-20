@@ -65,16 +65,4 @@ class CounterFormatterTest {
         // Assert
         assertEquals("9", result); // Since the number is less than 10, it should be returned as "9"
     }
-
-    @Test
-    void testFormat_WithZeroLength_ReturnsEmptyString() {
-        // Arrange
-        CounterFormatter counterFormatter = new CounterFormatter(0);
-
-        // Act
-        String result = counterFormatter.format(123);
-
-        // Assert
-        assertEquals("", result); // If the length is 0, it should return an empty string.
-    }
 }

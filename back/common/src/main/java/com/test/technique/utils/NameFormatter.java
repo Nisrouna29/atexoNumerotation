@@ -44,9 +44,7 @@ public class NameFormatter implements ValueFormatter<String> {
      * @return The formatted string, either truncated or padded.
      */
     private String padOrTruncate(String input, int length) {
-        if (length == 0) {
-            return "";
-        }
+
         var value = input.replaceAll("\\s+", "");
 
         if (value.length() >= length) {

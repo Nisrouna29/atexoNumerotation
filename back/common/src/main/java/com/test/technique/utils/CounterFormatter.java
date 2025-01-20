@@ -38,7 +38,6 @@ public class CounterFormatter implements ValueFormatter<Integer> {
         if (length == 0) {
             return "";
         }
-        if(value == null) value = 0;
         // Format the value with leading zeros to match the specified length
         String formatted = String.format("%0" + length + "d", value);
 

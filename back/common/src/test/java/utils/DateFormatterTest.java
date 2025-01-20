@@ -37,18 +37,6 @@ class DateFormatterTest {
         assertEquals("05/15/2020", result);  // Should format the date as "MM/dd/yyyy"
     }
 
-    @Test
-    void testFormat_WithNullDate_ReturnsEmptyString() {
-        // Arrange
-        String dateFormat = "yyyy-MM-dd";
-        DateFormatter dateFormatter = new DateFormatter(dateFormat);
-
-        // Act
-        String result = dateFormatter.format(null);
-
-        // Assert
-        assertEquals("", result);  // Should return an empty string when the date is null
-    }
 
     @Test
     void testFormat_WithCustomDateFormat_ReturnsFormattedDate() {

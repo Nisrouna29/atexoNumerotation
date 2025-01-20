@@ -37,7 +37,6 @@ public class DateFormatter implements ValueFormatter<LocalDate> {
      */
     @Override
     public String format(LocalDate value) {
-        if (value == null) return "";
         return value.format(DateTimeFormatter.ofPattern(dateFormat));
     }
 }

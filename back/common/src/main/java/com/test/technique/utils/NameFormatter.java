@@ -47,7 +47,7 @@ public class NameFormatter implements ValueFormatter<String> {
         if (length == 0) {
             return "";
         }
-        var value = input!= null ? input.replaceAll("\\s+", "") : "";
+        var value = input.replaceAll("\\s+", "");
 
         if (value.length() >= length) {
             return value.substring(0, length);

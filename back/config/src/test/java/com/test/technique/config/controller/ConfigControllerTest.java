@@ -97,12 +97,4 @@ public class ConfigControllerTest {
         verify(configService, times(1)).getAllConfigs();
     }
 
-    @Test
-    void testGetAllConfigs_NoContent() {
-        when(configService.getAllConfigs()).thenReturn(new ArrayList<>()); // Empty list
-        ResponseEntity<List<Config>> response = configController.getAllConfigs();
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(configService, times(1)).getAllConfigs();
-    }
 }

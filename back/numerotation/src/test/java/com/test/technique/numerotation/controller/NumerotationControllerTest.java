@@ -101,7 +101,7 @@ class NumerotationControllerTest {
         ResponseEntity<String> response = controller.generateNumber(validUserInfo);
 
         // Assert
-        assertEquals("The requested numerotation could not be generated, beacuse there is No configuration.", response.getBody());
+        assertEquals("The requested numerotation could not be generated because there is no configuration.", response.getBody());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

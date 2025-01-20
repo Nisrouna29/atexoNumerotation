@@ -35,9 +35,6 @@ public class ConfigController {
     @GetMapping
     public ResponseEntity<List<Config>> getAllConfigs() {
         List<Config> configs = configService.getAllConfigs();
-        if (configs.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
-        }
         return new ResponseEntity<>(configs, HttpStatus.OK); // 200 OK
     }
 

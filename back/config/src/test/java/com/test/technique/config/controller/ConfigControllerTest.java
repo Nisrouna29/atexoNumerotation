@@ -82,7 +82,7 @@ public class ConfigControllerTest {
         List<Config> emptyConfigs = new ArrayList<>();
         when(configService.updateConfigs(emptyConfigs)).thenReturn(null);
         ResponseEntity<String> response = configController.createConfigs(emptyConfigs);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Failed to update configs", response.getBody());
         verify(configService, times(1)).updateConfigs(emptyConfigs);
     }

@@ -53,7 +53,7 @@ public class ConfigController {
     public ResponseEntity<String> createConfigs(@RequestBody List<Config> configs) {
         Configs createdConfigs = configService.updateConfigs(configs);
         if (createdConfigs == null || configs.isEmpty()) {
-            return new ResponseEntity<>("Failed to update configs", HttpStatus.BAD_REQUEST); // 400 Bad Request
+            return new ResponseEntity<>("Failed to update configs", HttpStatus.INTERNAL_SERVER_ERROR); // 400 Bad Request
         }
         return new ResponseEntity<>("Configs Updated successfully", HttpStatus.CREATED); // 201 Created
     }

@@ -69,24 +69,24 @@ public class ConfigService implements IConfigService {
                 if (!seenCriterionTypes.add(config.getCriterionType())) {
                     throw new IllegalArgumentException("Duplicate found for criterionType: " + config.getCriterionType());
                 }
-
-                switch (config.getCriterionType()) {
-                    case "FIRSTNAME":
+                CriterionType criterionType = CriterionType.valueOf(config.getCriterionType());
+                switch (criterionType) {
+                    case FIRSTNAME:
                         if (!(config instanceof FirstNameConfig)) {
                             throw new IllegalArgumentException("Config for FIRSTNAME must be an instance of FirstNameConfig.");
                         }
                         break;
-                    case "NAME":
+                    case NAME:
                         if (!(config instanceof NameConfig)) {
                             throw new IllegalArgumentException("Config for NAME must be an instance of NameConfig.");
                         }
                         break;
-                    case "COUNTER":
+                    case COUNTER:
                         if (!(config instanceof CounterConfig)) {
                             throw new IllegalArgumentException("Config for COUNTER must be an instance of CounterConfig.");
                         }
                         break;
-                    case "BIRTHDATE":
+                    case BIRTHDATE:
                         if (!(config instanceof BirthdateConfig)) {
                             throw new IllegalArgumentException("Config for BIRTHDATE must be an instance of BirthdateConfig.");
                         }
